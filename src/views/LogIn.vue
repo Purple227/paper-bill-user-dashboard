@@ -14,6 +14,9 @@
       <br>
   
       <img class="img-fluid" src="../assets/images/illustrator/undraw_unlock_re_a558.svg" width="100" height="50">
+
+      <br>
+      <br>
   
       <input type="email" class="form-control" id="inputEmail" placeholder="Email">
   
@@ -23,10 +26,9 @@
   
       <br>
   
-      <p class="fs-6 fw-bold text-white">
+      <p class="fs-6 fw-bold text-white clickable_sign" @click="navigateToForgetPassword">
         Forget your password
       </p>
-  
   
       <div class="d-grid gap-2">
          <button class="btn bg_orange fw-bold text-white" 
@@ -38,7 +40,7 @@
       
       <br>
       <p class="fs-6 fw-bold text-white">
-        Don't have an account? <span class="orange_color clickable_sign" @click="navigateToLogin"> Sign Up </span>
+        Don't have an account? <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign Up </span>
       </p>
       
     </div>
@@ -69,9 +71,16 @@
 
     methods: {
         
-        navigateToDashBoardRoute() {
-            // Assuming you have a route named 'another-view'
+        navigateToDashBoard() {
             this.$router.push({ name: 'home' });
+        },
+
+        navigateToForgetPassword() {
+            this.$router.push({ name: 'forget-password' });
+        },
+
+        navigateToSignUp() {
+            this.$router.push({ name: 'register' });
         },
 
     }

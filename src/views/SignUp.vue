@@ -13,6 +13,7 @@
     <img class="img-fluid" src="../assets/images/illustrator/undraw_undraw_undraw_undraw_sign_up.svg" width="250" height="100">
 
     <br>
+    <br>
 
     <input type="email" class="form-control" id="inputEmail" placeholder="Email">
 
@@ -67,7 +68,6 @@
   
   
     mounted() {
-      // Code to execute after the component has been mounted
       console.log('Component has been mounted!');
   
     },
@@ -75,7 +75,6 @@
     methods: {
         
         navigateToLogin() {
-            // Assuming you have a route named 'another-view'
             this.$router.push({ name: 'login' });
         }
     }
