@@ -10,7 +10,7 @@
       <span class="fs-5 fw-bold orange_color text-white" > Hello there,create new account </span>
     </p>
 
-    <img class="img-fluid" src="../assets/images/illustrator/undraw_undraw_undraw_undraw_sign_up.svg" width="250" height="100">
+    <img class="img-fluid" src="../../assets/images/illustrator/undraw_undraw_undraw_undraw_sign_up.svg" width="250" height="100">
 
     <br>
     <br>
@@ -23,7 +23,7 @@
 
     <br>
 
-    <input type="password" class="form-control" id="inputEmail" placeholder="password">
+    <input type="password" class="form-control" id="inputPassword" placeholder="password">
 
     <br>
 

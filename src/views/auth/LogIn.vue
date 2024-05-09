@@ -13,7 +13,7 @@
 
       <br>
   
-      <img class="img-fluid" src="../assets/images/illustrator/undraw_unlock_re_a558.svg" width="100" height="50">
+      <img class="img-fluid" src="../../assets/images/illustrator/undraw_secure_files_re_6vdh.svg" width="200" height="100">
 
       <br>
       <br>

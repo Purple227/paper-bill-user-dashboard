@@ -6,27 +6,27 @@
     <div class="card bg_black text-center">
       <div class="card-body">
     
-        <p class="fs-4 fw-bold orange_color" > Reset Password
+        <p class="fs-4 fw-bold orange_color" > User verification
           <br>
-          <span class="fs-5 fw-bold orange_color text-white" > Hello there,sign in to continue </span>
+          <span class="fs-5 fw-bold orange_color text-white" > OTP has been sent to your email </span>
         </p>
   
         <br>
     
-        <img class="img-fluid" src="../assets/images/illustrator/undraw_forgot_password_re_hxwm.svg" width="150" height="100">
+        <img class="img-fluid" src="../../assets/images/illustrator/undraw_safe_re_kiil.svg" width="200" height="100">
+  
+        <br>
+        <br>
+    
+        <input type="number" class="form-control" id="inputOTP" placeholder="OTP Code">
     
         <br>
-        <br>
-
-        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-
-        <br>
-        <br>
+    
     
         <div class="d-grid gap-2">
            <button class="btn bg_orange fw-bold text-white" 
            type="button"> 
-           Reset Password 
+           Verify
            <i class="bi bi-arrow-right fw-bold"></i> 
           </button>
         </div>
@@ -34,12 +34,13 @@
         <br>
 
         <p class="fs-6 fw-bold text-white">
-          Back to <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign In </span>
+          Don't have an account? <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign Up </span>
         </p>
 
         <p class="fs-6 fw-bold text-white">
-          I don't have an accout <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign Up </span>
-        </p>
+          Have an account? <span class="orange_color clickable_sign" @click="navigateToLogin"> Sign In </span>
+       </p>
+
         
       </div>
     </div>
@@ -80,6 +81,10 @@
           navigateToSignUp() {
               this.$router.push({ name: 'register' });
           },
+
+          navigateToLogin() {
+            this.$router.push({ name: 'login' });
+         }
   
       }
     
@@ -89,7 +94,7 @@
     </script>
   
   
-  <style scoped>
+<style scoped>
   
   .bg_black {
      background-color: black;
