@@ -2,16 +2,17 @@
 
 <div class="bg_black d-flex justify-content-center align-items-center">
 
-
 <div class="card bg_black text-center">
   <div class="card-body">
 
-    <p class="fs-4 fw-bold orange_color" > Welcome to us
+    <p class="fs-4 fw-bold orange_color" > Welcome to Paper Bill
       <br>
       <span class="fs-5 fw-bold orange_color text-white" > Hello there,create new account </span>
     </p>
 
     <img class="img-fluid" src="../assets/images/illustrator/undraw_undraw_undraw_undraw_sign_up.svg" width="250" height="100">
+
+    <br>
 
     <input type="email" class="form-control" id="inputEmail" placeholder="Email">
 
@@ -21,7 +22,7 @@
 
     <br>
 
-    <input type="email" class="form-control" id="inputEmail" placeholder="password">
+    <input type="password" class="form-control" id="inputEmail" placeholder="password">
 
     <br>
 
@@ -40,7 +41,7 @@
     
     <br>
     <p class="fs-6 fw-bold text-white">
-      Have an account? <span class="orange_color clickable_sign"> Sign In </span>
+      Have an account? <span class="orange_color clickable_sign" @click="navigateToLogin"> Sign In </span>
     </p>
 
     
@@ -51,7 +52,6 @@
 </div>
 
 </template>
-
 
 
 <script>
@@ -74,12 +74,11 @@
 
     methods: {
         
-        navigateToDashBoardRoute() {
+        navigateToLogin() {
             // Assuming you have a route named 'another-view'
-            this.$router.push({ name: 'home' });
+            this.$router.push({ name: 'login' });
         }
     }
-  
   
   
   }
@@ -103,7 +102,6 @@
 .clickable_sign {
     cursor: pointer; /* Change the cursor to a pointer on hover */
 }
-
 
 </style>
     
