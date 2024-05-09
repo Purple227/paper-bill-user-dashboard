@@ -24,7 +24,7 @@
 
         <li class="nav-item">
             <router-link to="/service" class="nav-link text-white fw-bold fs-1"> 
-              <img src="../assets/default-profile.svg" class="img-fluid" alt="..." width="80">
+              <img src="" class="img-fluid" alt="..." width="80">
               <br>
             Ahmadi FX
           </router-link>
