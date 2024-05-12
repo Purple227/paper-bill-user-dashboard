@@ -5,8 +5,8 @@ Paper Bill is a secure and reliable platform that streamlines bill payments and 
 
 ## Demo
 
-![Demo One](/images/demo_one.png)
-![Demo Two](/images/demo_two.png)
+![Demo One](/src/assets/images/demo_one.png)
+![Demo Two](/src/assets/images/demo_two.png)
 
 
 
