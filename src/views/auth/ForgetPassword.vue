@@ -13,7 +13,7 @@
   
         <br>
     
-        <img class="img-fluid" src="../../assets/images/illustrator/undraw_forgot_password_re_hxwm.svg" width="150" height="100">
+        <img class="img-fluid" src="@/assets/images/illustrator/undraw_forgot_password_re_hxwm.svg" width="150" height="100">
     
         <br>
         <br>

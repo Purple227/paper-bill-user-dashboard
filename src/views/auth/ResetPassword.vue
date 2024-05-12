@@ -13,7 +13,7 @@
   
         <br>
     
-        <img class="img-fluid" src="../../assets/images/illustrator/undraw_safe_re_kiil.svg" width="200" height="100">
+        <img class="img-fluid" src="@/assets/images/illustrator/undraw_safe_re_kiil.svg" width="200" height="100">
   
         <br>
         <br>

@@ -1,22 +1,25 @@
 
 <template>
 
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
   <router-view></router-view>
+
+  <FooterNav> </FooterNav>
 
 </template>
 
 
 <script>
 
+import FooterNav from '@/components/FooterNav.vue';
+
 export default {
+
+  components: {
+    FooterNav
+  },
+
   name: 'App',
 }
 
 </script>
 
-<style scoped>
-
-
-</style>

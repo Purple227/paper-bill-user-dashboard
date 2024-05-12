@@ -13,7 +13,7 @@
 
       <br>
   
-      <img class="img-fluid" src="../../assets/images/illustrator/undraw_secure_files_re_6vdh.svg" width="200" height="100">
+      <img class="img-fluid" src="@/assets/images/illustrator/undraw_secure_files_re_6vdh.svg" width="200" height="100">
 
       <br>
       <br>
