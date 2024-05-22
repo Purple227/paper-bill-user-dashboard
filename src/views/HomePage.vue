@@ -12,7 +12,7 @@
         </div>
 
         <div class="col-2">
-          <i class="bi bi-bell-fill fs-3 text-white text-end"></i>
+          <i class="bi bi-bell-fill fs-3 text-white text-end clickable_sign"></i>
         </div>
 
     </div>
@@ -64,28 +64,28 @@
 <ul class="nav nav-pills nav-fill">
 
 <li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
+  <router-link class="nav-link fw-bold orange_color" :to="{name:'cable'}"> 
       <i class="bi bi-tv fs-1 "></i> 
       <br>
       <span class=""> Cable TV </span>
-  </a>
+  </router-link>
 </li>
 
 <li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
+    <router-link class="nav-link fw-bold orange_color" :to="{name:'airtime'}"> 
       <i class="bi bi-phone-fill fs-1 "></i> 
       <br>
       <span class=""> Airtime  </span>
-  </a>
+  </router-link>
 </li>
 
 
 <li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
+  <router-link class="nav-link fw-bold orange_color" :to="{name:'data-bundle'}"> 
       <i class="bi bi-wifi fs-1"></i> 
       <br>
       <span class=""> Data </span>
-  </a>
+  </router-link>
 </li>
 
 
@@ -103,20 +103,20 @@
 </li>
 
 <li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
+  <router-link class="nav-link fw-bold orange_color" :to="{name:'electricity'}"> 
       <i class="bi bi-lightning-charge-fill fs-1 "></i> 
       <br>
       <span class=""> Electricity  </span>
-  </a>
+  </router-link>
 </li>
 
 
 <li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
+  <router-link class="nav-link fw-bold orange_color" :to="{name:'services'}"> 
       <i class="bi bi-plus-square-fill fs-1"></i> 
       <br>
       <span class=""> More </span>
-  </a>
+  </router-link>
 </li>
 
 
@@ -167,7 +167,7 @@
 
 </ul>
 
-<p class="fw-bold fs-6 text-white clickable_sign text-end"> See More </p>
+<p class="fw-bold fs-6 text-white clickable_sign text-end" @click="navigateToTransaction"> See More </p>
 
 
 <br>
@@ -180,6 +180,36 @@
 
 
 </template>
+
+<script>
+
+  export default {
+    name: 'HomePage',
+  
+    data() {
+      return {
+        // data
+      };
+    },
+  
+  
+    mounted() {
+      // Code to execute after the component has been mounted
+      console.log('Component has been mounted!');
+    },
+
+    methods: {
+        
+        navigateToTransaction() {
+            this.$router.push({ name: 'transaction' });
+        },
+
+    }
+  
+  
+  
+  }
+  </script>
 
 
 <style scoped>

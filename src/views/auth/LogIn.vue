@@ -52,43 +52,74 @@
   </template>
   
 
-<script>
-
-  export default {
-    name: 'LogIn',
+  <script>
+  import axiosInstance from '@/axiosInstance';
   
+  export default {
     data() {
       return {
-        // data
-      };
-    },
   
+        form : {
+          email: null,
+          password: null,
+        },
   
-    mounted() {
-      // Code to execute after the component has been mounted
-      console.log('Component has been mounted!');
-    },
-
-    methods: {
+        error: {},
+  
+        buttonStatus: false,
+        errorMessage: null
+  
         
-        navigateToDashBoard() {
-            this.$router.push({ name: 'home' });
-        },
-
-        navigateToForgetPassword() {
-            this.$router.push({ name: 'forget-password' });
-        },
-
-        navigateToSignUp() {
-            this.$router.push({ name: 'register' });
-        },
-
+      }
+    },
+  
+  
+    methods: {
+  
+      async submit() {
+        this.buttonStatus == true
+  
+        try {
+          const requestData = {
+            email: this.form.email,
+            password: this.form.password,
+          };
+          const response = await axiosInstance.post('/login', requestData);
+          localStorage.setItem('bearerToken', response.data.data.token);
+  
+          if(response.data.data.user.email_verified_at == null ) {
+            this.$router.push({ name: 'verifyEmail' })
+          } else if(response.data.data.user.on_board !== 3) {
+            this.$router.push({ name: 'profile' })
+          }else {
+            this.$router.push({ name: 'dashboard' })
+          }
+        } catch (error) {
+          this.buttonStatus = false
+  
+  
+          this.error = error.response.data.error.message
+          this.errorMessage = error.response.data.error.custom_message
+  
+          if (this.errorMessage == undefined) {
+            this.errorMessage = null
+          } else {
+            this.error = {}
+            this.errorMessage = error.response.data.error.custom_message
+          }
+  
+        }
+  
+      },
+  
     }
   
   
   
   }
+  
   </script>
+  
 
 
 <style scoped>

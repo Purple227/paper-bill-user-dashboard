@@ -6,33 +6,33 @@
 <ul class="nav nav-pills nav-fill bg_orange">
 
   <li class="nav-item fw-bold">
-    <a class="nav-link fw-bold" href="#"> 
+    <router-link class="nav-link fw-bold" :to="{name:'home'}"> 
         <i class="bi bi-house-door-fill fs-2 text-white"></i> 
-    </a>
+    </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <a class="nav-link fw-bold" href="#"> 
+    <router-link class="nav-link fw-bold" :to="{name:'services'}"> 
         <i class="bi bi-view-list fs-2 text-white"></i>
-    </a>
+    </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <a class="nav-link fw-bold" href="#"> 
+    <router-link class="nav-link fw-bold" :to="{name:'wallet'}"> 
         <i class="bi bi-wallet2 fs-2 text-white"></i>
-    </a>
+    </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <a class="nav-link fw-bold" href="#"> 
+    <router-link class="nav-link fw-bold" :to="{name:'gift-card'}"> 
         <i class="bi bi-currency-exchange fs-2 text-white"></i>
-    </a>
+    </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <a class="nav-link fw-bold" href="#"> 
+    <router-link class="nav-link fw-bold" :to="{name:'profile'}"> 
         <i class="bi bi-person-fill-gear fs-2 text-white"></i>
-    </a>
+    </router-link>
   </li>
 
 </ul>
