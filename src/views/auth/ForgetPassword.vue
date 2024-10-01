@@ -18,17 +18,23 @@
         <br>
         <br>
 
-        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+        <input type="email" class="form-control" id="inputEmail" placeholder="Email" v-model="form.email">
 
         <br>
         <br>
     
-        <div class="d-grid gap-2">
+        <div>
+        <div class="d-grid gap-2" v-if="status == false" @click="sendCode">
            <button class="btn bg_orange fw-bold text-white" 
            type="button"> 
            Submit 
            <i class="bi bi-arrow-right fw-bold"></i> 
           </button>
+        </div>
+
+        <div class="spinner-border justify-content-center orange_color" role="status" v-else>
+            <span class="visually-hidden">Loading...</span>
+         </div>
         </div>
         
         <br>
@@ -51,13 +57,21 @@
     
   
   <script>
+  import axiosInstance from '@/axiosInstance';
   
     export default {
-      name: 'LogIn',
+      name: 'ForgetPassword',
     
       data() {
         return {
-          // data
+          
+        form : {
+          email: null,
+        },
+
+        status: false,
+        error: {},
+
         };
       },
     
@@ -83,9 +97,38 @@
 
           navigateToLogin() {
             this.$router.push({ name: 'login' });
-         }
+         },
+
+         toast(type, message) {
+            this.$toast.open({
+            message: message,
+            type: type,
+            duration: 7000,
+            dismissible: true,
+            position: 'top-right',
+           })
+        },
+
+        async sendCode() {
+            this.status = true
+
+         try {
+           const requestData = {
+            email: this.form.email,
+         };
+          const response = await axiosInstance.post('/resend/otp', requestData);
+          this.status = false
+          this.toast('success', 'Reset Code Sent Succesfully')
+          this.$router.push({ name: 'reset-password' });
+          console.log(response)
+        } catch (error) {
+          this.status = false
+          this.error = error.response.data.error.message
+          this.toast('error', this.error)
+       }
+     },
   
-      }
+ }
     
     
     

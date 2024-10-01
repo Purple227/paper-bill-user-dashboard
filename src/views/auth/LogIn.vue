@@ -18,33 +18,55 @@
       <br>
       <br>
   
-      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-  
+      <div :class="error.email == null ? '' : 'has-validation'">
+    <input type="email" class="form-control" :class="error.email == null ? 'border border-light' : 'is-invalid'" id="inputEmail" placeholder="Email" v-model="form.email">
+    <div class="invalid-feedback">
+    {{  error.email == null ? '' : error.email[0] }}
+     </div>
+    </div>  
       <br>
   
-      <input type="password" class="form-control" id="inputEmail" placeholder="Password">
-  
+      <div :class="error.password == null ? '' : 'has-validation'">
+    <input type="password" class="form-control" :class="error.password == null ? 'border border-light' : 'is-invalid'" id="inputPassword" placeholder="password" v-model="form.password">
+    <div class="invalid-feedback">
+    {{  error.password == null ? '' : error.password[0] }}
+    </div>
+   </div>
+
       <br>
   
       <p class="fs-6 fw-bold text-white clickable_sign" @click="navigateToForgetPassword">
         Forget your password
       </p>
   
-      <div class="d-grid gap-2">
+      <div>
+      <div class="d-grid gap-2" v-if="status == false" @click="submit">
          <button class="btn bg_orange fw-bold text-white" 
          type="button"> 
          Sign In
          <i class="bi bi-arrow-right fw-bold"></i> 
         </button>
       </div>
-      
+
+      <div class="spinner-border justify-content-center orange_color" role="status" v-else>
+            <span class="visually-hidden">Loading...</span>
+      </div>
+      </div>
+
       <br>
+      
       <p class="fs-6 fw-bold text-white">
         Don't have an account? <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign Up </span>
       </p>
+
+      <br>
+      <br>
       
     </div>
   </div>
+
+  <br>
+  <br>
   
   
   </div>
@@ -65,10 +87,7 @@
         },
   
         error: {},
-  
-        buttonStatus: false,
-        errorMessage: null
-  
+        status: false,
         
       }
     },
@@ -77,40 +96,49 @@
     methods: {
   
       async submit() {
-        this.buttonStatus == true
-  
-        try {
-          const requestData = {
-            email: this.form.email,
-            password: this.form.password,
-          };
-          const response = await axiosInstance.post('/login', requestData);
-          localStorage.setItem('bearerToken', response.data.data.token);
-  
-          if(response.data.data.user.email_verified_at == null ) {
-            this.$router.push({ name: 'verifyEmail' })
-          } else if(response.data.data.user.on_board !== 3) {
-            this.$router.push({ name: 'profile' })
-          }else {
-            this.$router.push({ name: 'dashboard' })
-          }
-        } catch (error) {
-          this.buttonStatus = false
-  
-  
-          this.error = error.response.data.error.message
-          this.errorMessage = error.response.data.error.custom_message
-  
-          if (this.errorMessage == undefined) {
-            this.errorMessage = null
-          } else {
-            this.error = {}
-            this.errorMessage = error.response.data.error.custom_message
-          }
-  
+      this.status = true
+
+      try {
+        const requestData = {
+          email: this.form.email,
+          password: this.form.password,
+        };
+        const response = await axiosInstance.post('/login', requestData);
+        localStorage.setItem('bearerToken', response.data.data.token);
+        console.log(typeof response.data.data.token)
+
+        if(response.data.data.user.email_verified_at == null) {
+          this.toast('error', 'Please Verified Your Email')
+          this.$router.push({ name: 'reset-code' });
+        } else {
+          this.toast('success', 'Login Succesfull')
+          this.$router.push({ name: 'home' });
         }
-  
-      },
+      } catch (error) {
+        this.status = false
+        this.error = error.response.data.error.message
+        this.toast('error', 'Please Recheck Login Details')
+      }
+    },
+
+    toast(type, message) {
+      this.$toast.open({
+        message: message,
+        type: type,
+        duration: 7000,
+        dismissible: true,
+        position: 'top-right',
+      })
+    },
+
+    navigateToForgetPassword() {
+        this.$router.push({ name: 'forget-password' });
+    },
+
+    navigateToSignUp() {
+        this.$router.push({ name: 'register' });
+    },
+
   
     }
   

@@ -3,12 +3,16 @@
 
 <br>
 
+
+<div class="" v-if="loading == false">
+
+
 <div class="container">
     <div class="row">
 
 
         <div class="col-10">
-            <p class="fw-bold text-white fs-3"> Welcome Joseph</p>
+            <p class="fw-bold text-white fs-3"> Welcome {{ user.name }}</p>
         </div>
 
         <div class="col-2">
@@ -62,64 +66,26 @@
     <p class="fw-bold fs-4 text-white"> Services </p>
 
 <ul class="nav nav-pills nav-fill">
-
-<li class="nav-item fw-bold border-radius m-3">
-  <router-link class="nav-link fw-bold orange_color" :to="{name:'cable'}"> 
-      <i class="bi bi-tv fs-1 "></i> 
+<li class="nav-item fw-bold border-radius m-3 clickable_sign" 
+v-for="category in sliceCategoriesOne" 
+:key="category.id" @click="goToService(category.identifier)">
+      <i class="bi bi-phone-fill fs-1 orange_color" v-if="category.identifier == 'airtime'"></i> 
+      <i class="bi bi-wifi fs-1 orange_color" v-if="category.identifier == 'data'"></i> 
+      <i class="bi bi-tv fs-1 orange_color" v-if="category.identifier == 'tv-subscription'"></i> 
       <br>
-      <span class=""> Cable TV </span>
-  </router-link>
+      <span class="orange_color"> {{ category.name }} </span>
 </li>
-
-<li class="nav-item fw-bold border-radius m-3">
-    <router-link class="nav-link fw-bold orange_color" :to="{name:'airtime'}"> 
-      <i class="bi bi-phone-fill fs-1 "></i> 
-      <br>
-      <span class=""> Airtime  </span>
-  </router-link>
-</li>
-
-
-<li class="nav-item fw-bold border-radius m-3">
-  <router-link class="nav-link fw-bold orange_color" :to="{name:'data-bundle'}"> 
-      <i class="bi bi-wifi fs-1"></i> 
-      <br>
-      <span class=""> Data </span>
-  </router-link>
-</li>
-
-
 </ul>
 
-
 <ul class="nav nav-pills nav-fill">
-
-<li class="nav-item fw-bold border-radius m-3">
-  <a class="nav-link fw-bold orange_color" href="#"> 
-      <i class="bi bi-currency-exchange fs-1 "></i> 
+<li class="nav-item fw-bold border-radius m-3 clickable_sign" 
+v-for="category in sliceCategoriesTwo" 
+:key="category.id" @click="goToService(category.identifier)">
+      <i class="bi bi-lightning-charge-fill fs-1 orange_color" v-if="category.identifier == 'electricity-bill'"></i> 
+      <i class="bi bi-book fs-1 orange_color " v-if="category.identifier == 'education'"></i> 
       <br>
-      <span class=""> Gift Card </span>
-  </a>
+      <span class="orange_color"> {{ category.name }} </span>
 </li>
-
-<li class="nav-item fw-bold border-radius m-3">
-  <router-link class="nav-link fw-bold orange_color" :to="{name:'electricity'}"> 
-      <i class="bi bi-lightning-charge-fill fs-1 "></i> 
-      <br>
-      <span class=""> Electricity  </span>
-  </router-link>
-</li>
-
-
-<li class="nav-item fw-bold border-radius m-3">
-  <router-link class="nav-link fw-bold orange_color" :to="{name:'services'}"> 
-      <i class="bi bi-plus-square-fill fs-1"></i> 
-      <br>
-      <span class=""> More </span>
-  </router-link>
-</li>
-
-
 </ul>
 
 </div>
@@ -169,44 +135,86 @@
 
 <p class="fw-bold fs-6 text-white clickable_sign text-end" @click="navigateToTransaction"> See More </p>
 
-
 <br>
 <br>
-
 
 </div>
 
-<br>
+</div>
+
+<div class="loader-container" v-if="loading == true">
+    <PulseLoader :color="color" :size="size"></PulseLoader>
+  </div>
+
 
 
 </template>
 
+
 <script>
+
+import { useAuthUser } from '@/store/authenticate';
+import axiosInstance from '@/axiosInstance';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader component
 
   export default {
     name: 'HomePage',
+
+    components: {
+    PulseLoader
+    },
   
     data() {
       return {
-        // data
+        
+        user: {},
+        categories: null,
+        sliceCategoriesOne: null,
+        sliceCategoriesTwo: null,
+
+        loading: true, // Control loading state
+        color: '#FF5733', // Loader color (replace with your desired color)
+        size: '25px' // Loader size (adjust as needed)
+
       };
     },
   
   
     mounted() {
-      // Code to execute after the component has been mounted
-      console.log('Component has been mounted!');
-    },
+        this.getAuthUser();
+        this.fetchCategories();
+       },
 
     methods: {
-        
-        navigateToTransaction() {
-            this.$router.push({ name: 'transaction' });
-        },
+
+      navigateToTransaction() {
+        this.$router.push({ name: 'transaction' });
+      },
+
+    fetchCategories() {
+      axiosInstance.get('/services')
+        .then(response => {
+          this.categories = response.data; // Assuming API returns an array of categories
+          this.sliceCategoriesOne = this.categories.content.slice(0, 3);
+          this.sliceCategoriesTwo = this.categories.content.slice(3, 5);
+          this.loading = false
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+          this.loading = false
+        });
+    },
+
+    async getAuthUser() {
+      await useAuthUser().fetchUserData();
+        this.user = useAuthUser().userData
+    },
+
+    goToService(name) {
+    this.$router.push({ name: name, params: { service: name } });
+    }
 
     }
-  
-  
   
   }
   </script>
@@ -224,7 +232,7 @@
 }
 
 .bg_black {
-  background-color: black;
+  background-color: #2D2C2D;
 }
 
 .clickable_sign {
@@ -236,8 +244,15 @@
 }
 
 .border-radius {
-    border: 2px solid #fff;
+    border: 5px solid #fff;
     border-radius: 5px;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust height as needed for full-page centering */
 }
 
 </style>

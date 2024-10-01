@@ -1,6 +1,6 @@
 <template>
 
-  <div class="bg_black d-flex justify-content-center align-items-center">
+<div class="bg_black d-flex justify-content-center align-items-center" v-if="loading == false">
   
   
   <div class="card bg_black text-center">
@@ -11,19 +11,13 @@
        Data Bundle
       </p>
   
-      <p class="fs-6 fw-bold text-white clickable_sign" @click="navigateToForgetPassword">
-        Service Provider
+      <p class="fs-6 fw-bold text-white clickable_sign">
+          Select Network
+          <select class="form-select" aria-label="Default select example" v-model="selectedOption" @change="fetchBillerInfo">
+          <option :value="billers.biller_code" selected v-for="billers in billers.data" :key="billers.id"> {{ billers.name }}</option>
+        </select>
       </p>
 
-      <img class="img-fluid" src="@/assets/images/illustrator/undraw_photos_re_pvh3.svg" width="50" height="50">
-      <img class="img-fluid" src="@/assets/images/illustrator/undraw_photos_re_pvh3.svg" width="50" height="50">
-      <img class="img-fluid" src="@/assets/images/illustrator/undraw_photos_re_pvh3.svg" width="50" height="50">
-      <img class="img-fluid" src="@/assets/images/illustrator/undraw_photos_re_pvh3.svg" width="50" height="50">
-
-      <br>
-      <br>
-
-      <input type="number" class="form-control" id="inputEmail" placeholder="Phone Number">
       <br>
 
 
@@ -52,73 +46,121 @@
   
   
   </div>
+
+  <div class="loader-container" v-if="loading == true">
+    <PulseLoader :color="color" :size="size"></PulseLoader>
+  </div>
   
   </template>
   
 
-<script>
 
-  export default {
-    name: 'LogIn',
+  <script>
+
+import { useAuthUser } from '@/store/authenticate';
+import axiosInstance from '@/axiosInstance';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader component
+
   
-    data() {
-      return {
-        // data
-      };
-    },
+    export default {
+      name: 'CablePage',
+
+      components: {
+        PulseLoader
+      },
   
+    
+      data() {
+        return {
+          // data
+
+          billers: [],
+          selectedOption: null,
+          selectedBillerOption: null,
+          billerInfo: [],
+          billerSelectLoader: true,
+
+          loading: true, // Control loading state
+          color: '#FF5733', // Loader color (replace with your desired color)
+          size: '25px' // Loader size (adjust as needed)
+
+        };
+      },
+    
+    
+      mounted() {
+        this.getAuthUser();
+        this.fetchBiller();
+       },
   
-    mounted() {
-      // Code to execute after the component has been mounted
-      console.log('Component has been mounted!');
-    },
-
-    methods: {
-        
-        navigateToDashBoard() {
-            this.$router.push({ name: 'home' });
-        },
-
-        navigateToForgetPassword() {
-            this.$router.push({ name: 'forget-password' });
-        },
-
-        navigateToSignUp() {
-            this.$router.push({ name: 'register' });
-        },
-
-        goBack() {
-           if (window.history.length > 1) {
+      methods: {
+  
+      goBack() {
+          if (window.history.length > 1) {
               this.$router.go(-1);
-           } else {
+            } else {
               this.$router.push('/');
-           }
-        }
+            }
+      },
 
-    }
-  
-  
-  
+      fetchBiller() {
+      axiosInstance.get(`/billers/${this.$route.params.service}`)
+        .then(response => {
+          this.billers = response.data; // Assuming API returns an array of categories
+          this.loading = false
+        })
+        .catch(error => {
+          console.error('Error fetching billing categories:', error);
+          this.loading = false
+        });
+    },
+
+    async getAuthUser() {
+      await useAuthUser().fetchUserData();
+        this.user = useAuthUser().userData
+    },
+
+    fetchBillerInfo() {
+      axiosInstance.get(`/biller/${this.selectedOption}/item`)
+        .then(response => {
+          this.billerInfo = response.data; // Assuming API returns an array of categories
+          this.billerSelectLoader = false
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+        });
+    },
+
   }
-  </script>
-
-
-<style scoped>
-
-.bg_black {
-   background-color: black;
+    
 }
 
-.orange_color {
-  color: #FF5733;
-}
+</script>
+  
+  
+  <style scoped>
+  
+  .bg_black {
+     background-color: black;
+  }
+  
+  .orange_color {
+    color: #FF5733;
+  }
+  
+  .bg_orange {
+    background-color: #FF5733;
+  }
+  
+  .clickable_sign {
+      cursor: pointer; /* Change the cursor to a pointer on hover */
+  }
 
-.bg_orange {
-  background-color: #FF5733;
-}
-
-.clickable_sign {
-    cursor: pointer; /* Change the cursor to a pointer on hover */
-}
-
-</style>
+  .loader-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh; /* Adjust height as needed for full-page centering */
+   }
+  
+  </style>

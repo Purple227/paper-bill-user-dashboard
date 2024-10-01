@@ -13,32 +13,65 @@
   
         <br>
     
+
         <img class="img-fluid" src="@/assets/images/illustrator/undraw_safe_re_kiil.svg" width="200" height="100">
   
         <br>
         <br>
     
-        <input type="number" class="form-control" id="inputOTP" placeholder="OTP Code">
+        <div :class="error.otp == null ? '' : 'has-validation'">
+        <input type="number" class="form-control" :class="error.otp == null ? 'border border-light' : 'is-invalid'" id="inputOTP" placeholder="OTP Code" v-model="form.otp">
+        <div class="invalid-feedback">
+          {{  error.otp == null ? '' : error.otp[0] }}
+        </div>
+        </div>
+
+        <br>
+
+        <div :class="error.password == null ? '' : 'has-validation'">
+        <input type="password" class="form-control" :class="error.password == null ? 'border border-light' : 'is-invalid'" id="inputPassword" placeholder="New Password" v-model="form.password">
+        <div class="invalid-feedback">
+         {{  error.password == null ? '' : error.password[0] }}
+        </div>
+        </div>
     
         <br>
-    
-        <input type="password" class="form-control" id="inputPassword" placeholder="New Password">
-    
+
+        <div :class="error.password_confirmation == null ? '' : 'has-validation'">
+        <input type="password" class="form-control" :class="error.password_confirmation == null ? 'border border-light' : 'is-invalid'" placeholder="Confirm Password" v-model="form.passwordConfirmation">
+        <div class="invalid-feedback">
+          {{  error.password_confirmation == null ? '' : error.password_confirmation[0] }}
+        </div> 
+        </div>
+
         <br>
+
     
-        <div class="d-grid gap-2">
+        <div>
+        <div class="d-grid gap-2" v-if="status == false" @click="submit">
            <button class="btn bg_orange fw-bold text-white" 
            type="button"> 
            Reset Password
            <i class="bi bi-arrow-right fw-bold"></i> 
           </button>
         </div>
+        <div class="spinner-border justify-content-center orange_color" role="status" v-else>
+            <span class="visually-hidden">Loading...</span>
+         </div>
+        </div>
         
         <br>
 
-        <p class="fs-6 fw-bold text-white clickable_sign">
-          Go home 
+        <p class="fs-6 fw-bold text-white">
+          Don't have an account? <span class="orange_color clickable_sign" @click="navigateToSignUp"> Sign Up </span>
         </p>
+
+        <p class="fs-6 fw-bold text-white">
+          Have an account? <span class="orange_color clickable_sign" @click="navigateToLogin"> Sign In </span>
+       </p>
+
+       <br>
+       <br>
         
       </div>
     </div>
@@ -50,14 +83,24 @@
     
   
   <script>
+  import axiosInstance from '@/axiosInstance';
   
     export default {
       name: 'LogIn',
     
       data() {
         return {
-          // data
-        };
+          
+      form : {
+        otp: null,
+        password: null,
+        passwordConfirmation: null,
+      },
+
+        error: {},
+        status: false,
+
+      };
       },
     
     
@@ -66,7 +109,7 @@
         console.log('Component has been mounted!');
       },
   
-      methods: {
+methods: {
           
           navigateToDashBoard() {
               this.$router.push({ name: 'home' });
@@ -82,9 +125,40 @@
 
           navigateToLogin() {
             this.$router.push({ name: 'login' });
-         }
-  
+         },
+
+  async submit() {
+        this.status == true
+
+      try {
+        const requestData = {
+          email: this.form.email,
+          password: this.form.password,
+          otp: this.form.otp,
+          password_confirmation: this.form.passwordConfirmation,
+        };
+        const response = await axiosInstance.post('/reset/password', requestData);
+        this.toast('success', 'Password Change Succesfully Login')
+         this.$router.push({ name: 'login' })
+         console.log(response)
+      } catch (error) {
+        this.status = false
+        this.error = error.response.data.error.message
       }
+    },
+
+    toast(type, message) {
+      this.$toast.open({
+        message: message,
+        type: type,
+        duration: 7000,
+        dismissible: true,
+        position: 'top-right',
+      })
+    },
+
+  
+}
     
     
     

@@ -6,13 +6,13 @@
 <ul class="nav nav-pills nav-fill bg_orange">
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold" :to="{name:'home'}"> 
+    <router-link class="nav-link fw-bold"> 
         <i class="bi bi-house-door-fill fs-2 text-white"></i> 
     </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold" :to="{name:'services'}"> 
+    <router-link class="nav-link fw-bold"> 
         <i class="bi bi-view-list fs-2 text-white"></i>
     </router-link>
   </li>
@@ -24,7 +24,7 @@
   </li>
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold" :to="{name:'gift-card'}"> 
+    <router-link class="nav-link fw-bold"> 
         <i class="bi bi-currency-exchange fs-2 text-white"></i>
     </router-link>
   </li>

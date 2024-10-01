@@ -2,8 +2,8 @@
 <template>
 
   <router-view></router-view>
-
   <FooterNav> </FooterNav>
+
 
 </template>
 
@@ -15,7 +15,7 @@ import FooterNav from '@/components/FooterNav.vue';
 export default {
 
   components: {
-    FooterNav
+    FooterNav,
   },
 
   name: 'App',
