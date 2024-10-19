@@ -36,9 +36,21 @@
     <div class="col-10">
 
       <p class="fs-6 fw-bold text-white"> 
-        Wallet Balance  <i class="bi bi-eye-fill text-white fs-5 clickable_sign"></i>
+
+        <span> Balance </span> 
+
+        <i class="bi bi-eye-fill text-white fs-5 clickable_sign ml-2" @click="hideBalance"></i>
         <br>
-        ₦5,000.00
+
+        <span v-if="hide == false"> ₦ {{ balance }} </span>
+
+        <span v-if="hide == true">
+        <i class="bi bi-asterisk"></i>
+        <i class="bi bi-asterisk"></i>
+        <i class="bi bi-asterisk"></i>
+        <i class="bi bi-asterisk"></i>
+        </span>
+        
       </p>
 
     </div>
@@ -46,7 +58,7 @@
 
 
     <div class="col-2">
-        <i class="bi bi-plus-square-fill fs-1 text-white clickable_sign"> </i> 
+        <i class="bi bi-plus-square-fill fs-1 text-white clickable_sign" @click="paymentRoute"> </i> 
     </div>
 
 </div>
@@ -171,6 +183,8 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader
         categories: null,
         sliceCategoriesOne: null,
         sliceCategoriesTwo: null,
+        balance: 0,
+        hide: false,
 
         loading: true, // Control loading state
         color: '#FF5733', // Loader color (replace with your desired color)
@@ -187,8 +201,16 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader
 
     methods: {
 
+      hideBalance() {
+        this.hide = !this.hide
+      },
+
       navigateToTransaction() {
         this.$router.push({ name: 'transaction' });
+      },
+
+      paymentRoute() {
+        this.$router.push({ name: 'payment' });
       },
 
     fetchCategories() {
@@ -208,6 +230,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader
     async getAuthUser() {
       await useAuthUser().fetchUserData();
         this.user = useAuthUser().userData
+        this.balance = useAuthUser().userBalance
     },
 
     goToService(name) {

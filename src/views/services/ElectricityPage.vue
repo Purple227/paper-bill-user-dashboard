@@ -36,6 +36,11 @@
         
       </div>
     </div>
+
+
+    <div class="loader-container" v-if="loading == true">
+    <PulseLoader :color="color" :size="size"></PulseLoader>
+    </div>
     
     
     </div>
@@ -44,9 +49,25 @@
     
   
   <script>
+
+import { useAuthUser } from '@/store/authenticate';
+import axiosInstance from '@/axiosInstance';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'; // Import PulseLoader component
   
     export default {
-      name: 'LogIn',
+      name: 'ElectricityPage',
+
+      props: {
+        service: {
+            type: String,
+            required: true // You can set this to false if it's optional
+        }
+    },
+
+      components: {
+        PulseLoader
+      },
+    
     
       data() {
         return {
@@ -73,6 +94,19 @@
           navigateToSignUp() {
               this.$router.push({ name: 'register' });
           },
+
+    fetchServiceVariation(variation) {
+      this.loading = true
+      axiosInstance.get(`/services/variation/${variation}`)
+        .then(response => {
+          this.listAirtimeVariation = response.data.content;
+          this.loading = false
+        })
+        .catch(error => {
+          console.error('Error fetching categories variation:', error);
+          this.loading = false
+        });
+    },
   
           goBack() {
              if (window.history.length > 1) {
@@ -80,7 +114,12 @@
              } else {
                 this.$router.push('/');
              }
-          }
+          },
+
+          async getAuthUser() {
+      await useAuthUser().fetchUserData();
+        this.user = useAuthUser().userData
+    },
   
       }
     

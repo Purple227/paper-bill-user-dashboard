@@ -3,6 +3,7 @@ import { useAuthUser } from '@/store/authenticate'; // Import the useAuthUser st
 
 import Home from './views/HomePage.vue';
 import Transaction from './views/TransactionPage';
+import Payment from './views/PayMent.vue';
 
 import LogIn from './views/auth/LogIn.vue';
 import SignUp from './views/auth/SignUp.vue';
@@ -21,6 +22,12 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+    meta: { requiresAuth: true } // Protected route, requires authentication
+  },
+  {
+    path: '/payment',
+    name: 'payment',
+    component: Payment,
     meta: { requiresAuth: true } // Protected route, requires authentication
   },
   {

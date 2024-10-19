@@ -6,25 +6,25 @@
 <ul class="nav nav-pills nav-fill bg_orange">
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold"> 
+    <router-link class="nav-link fw-bold" :to="{name:'home'}"> 
         <i class="bi bi-house-door-fill fs-2 text-white"></i> 
     </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold"> 
+    <router-link class="nav-link fw-bold" :to="{name:'profile'}"> 
         <i class="bi bi-view-list fs-2 text-white"></i>
     </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold" :to="{name:'wallet'}"> 
+    <router-link class="nav-link fw-bold" :to="{name:'profile'}"> 
         <i class="bi bi-wallet2 fs-2 text-white"></i>
     </router-link>
   </li>
 
   <li class="nav-item fw-bold">
-    <router-link class="nav-link fw-bold"> 
+    <router-link class="nav-link fw-bold" :to="{name:'profile'}"> 
         <i class="bi bi-currency-exchange fs-2 text-white"></i>
     </router-link>
   </li>
@@ -45,7 +45,7 @@
     <script>
     
       export default {
-        name: 'NavBar',
+        name: 'FooterNav',
       
         data() {
           return {
